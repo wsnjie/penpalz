@@ -34,4 +34,3 @@ class Message(models.Model):
         Lang, related_name="in_language", on_delete=models.DO_NOTHING
     )
     content = models.TextField()
-

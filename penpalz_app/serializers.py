@@ -18,8 +18,8 @@ class LangSerializer(serializers.ModelSerializer):
 
 
 class ProfSerializer(serializers.ModelSerializer):
-    prof_of_user = UserSerializer(read_only=True)
-    prof_of_lang = LangSerializer(read_only=True)
+    user = UserSerializer(read_only=True)
+    language = LangSerializer(read_only=True)
 
     class Meta:
         model = Prof
@@ -27,10 +27,25 @@ class ProfSerializer(serializers.ModelSerializer):
 
 
 class MessageSerializer(serializers.ModelSerializer):
-    from_user = UserSerializer(read_only=True)
-    to_user = UserSerializer(read_only=True)
-    in_language = LangSerializer(read_only=True)
+    sent = UserSerializer(read_only=True)
+    rec = UserSerializer(read_only=True)
+    language = LangSerializer(read_only=True)
+
+    sent_prof = serializers.SerializerMethodField()
+    rec_prof = serializers.SerializerMethodField()
 
     class Meta:
         model = Message
         fields = "__all__"
+
+    def get_sent_prof(self, obj):
+        prof = Prof.objects.filter(user=obj.sent.id, language=obj.language.id).values(
+            "level"
+        )
+        return prof
+
+    def get_rec_prof(self, obj):
+        prof = Prof.objects.filter(user=obj.rec.id, language=obj.language.id).values(
+            "level"
+        )
+        return prof
