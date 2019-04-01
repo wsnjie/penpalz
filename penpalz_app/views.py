@@ -8,6 +8,7 @@ from .serializers import (
 )
 from rest_framework import viewsets
 from django.http import JsonResponse
+from django.db.models import Avg
 
 # Create your views here.
 class UserView(viewsets.ModelViewSet):
@@ -18,6 +19,9 @@ class UserView(viewsets.ModelViewSet):
 class LangView(viewsets.ModelViewSet):
     queryset = Lang.objects.all()
     serializer_class = LangSerializer
+
+    def get_queryset(self):
+        return Lang.objects.annotate(avg_level=Avg("prof_of_lang__level"))
 
 
 class ProfView(viewsets.ModelViewSet):

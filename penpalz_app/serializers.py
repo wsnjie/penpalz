@@ -9,6 +9,9 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class LangSerializer(serializers.ModelSerializer):
+
+    avg_level = serializers.ReadOnlyField()
+
     class Meta:
         model = Lang
         fields = "__all__"
