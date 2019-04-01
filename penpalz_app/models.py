@@ -10,9 +10,19 @@ class User(models.Model):
         return self.firstname
 
 
+class Prof(models.Model):
+    user = models.ForeignKey(
+        User, related_name="prof_of_user", on_delete=models.CASCADE
+    )
+    language = models.ForeignKey(
+        "Lang", related_name="prof_of_lang", on_delete=models.CASCADE
+    )
+    level = models.IntegerField()
+
+
 class Lang(models.Model):
     name = models.CharField(max_length=100)
-    avglvl = models.CharField(max_length=100)
+    avglvl = models.PositiveIntegerField()
 
     def __str__(self):
         return self.name
@@ -26,12 +36,3 @@ class Message(models.Model):
     )
     content = models.TextField()
 
-
-class Prof(models.Model):
-    user = models.ForeignKey(
-        User, related_name="prof_of_user", on_delete=models.CASCADE
-    )
-    language = models.ForeignKey(
-        Lang, related_name="prof_of_lang", on_delete=models.CASCADE
-    )
-    level = models.IntegerField(max_length=2)
