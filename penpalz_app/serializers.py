@@ -26,10 +26,8 @@ class LangSerializer(serializers.ModelSerializer):
 
 
 class ProfSerializer(serializers.ModelSerializer):
-    prof_of_user = UserSerializer(read_only=True)
-    prof_of_language = LangSerializer(read_only=True)
-    # user = UserSerializer(read_only=True)
-    # language = LangSerializer(read_only=True)
+    user = UserSerializer(read_only=True)
+    language = LangSerializer(read_only=True)
 
     class Meta:
         model = Prof
