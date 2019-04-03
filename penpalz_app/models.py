@@ -9,6 +9,9 @@ class User(models.Model):
     def __str__(self):
         return self.firstname
 
+    def natural_key(self):
+        return (self.firstname, self.lastname)
+
 
 class Prof(models.Model):
     user = models.ForeignKey(
