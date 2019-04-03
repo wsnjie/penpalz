@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Create your models here.
 class User(models.Model):
@@ -9,18 +10,17 @@ class User(models.Model):
     def __str__(self):
         return self.firstname
 
-    def natural_key(self):
-        return (self.firstname, self.lastname)
-
 
 class Prof(models.Model):
     user = models.ForeignKey(
         User, related_name="prof_of_user", on_delete=models.CASCADE
     )
     language = models.ForeignKey(
-        "Lang", related_name="prof_of_lang", on_delete=models.CASCADE
+        "Lang", related_name="prof_of_lang", on_delete=models.DO_NOTHING
     )
-    level = models.IntegerField()
+    level = models.IntegerField(
+        default=1, validators=[MaxValueValidator(10), MinValueValidator(1)]
+    )
 
 
 class Lang(models.Model):
